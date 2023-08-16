@@ -1,6 +1,7 @@
 
 package com.mycompany.jpaprueba.logica;
 
+
 import com.mycompany.jpaprueba.persistencia.ControladoraPersistencia;
 import java.util.ArrayList;
 
@@ -31,5 +32,31 @@ public class Controladoralogica {
     public ArrayList<Alumno> traerListaAlumnos(){
         return controlPersis.traerListaAlumnos();
     }
+    
+    //Carrera
+    public void crearCarrera(Carrera carre){
+    
+        controlPersis.crearCarrera(carre);
+    } 
+    
+    public void eliminarCarrera(int id){
+    
+      controlPersis.eliminarCarrera(id);
+    }
+    
+    public void editarCarrera(Carrera carre){
+        controlPersis.editarCarrera(carre);
+    }
+    
+    public Carrera traerCarrera(int id){
+        return controlPersis.traerCarrera(id);
+    }
+    
+    public ArrayList<Carrera> traerListaCarreras(){
+        return controlPersis.traerListaCarreras();
+    }
+    
+    
+    
     
 }
