@@ -10,11 +10,11 @@ import com.mycompany.login.logica.Controladora;
  *
  * @author joaqu
  */
-public class Principal extends javax.swing.JFrame {
+public class LoginInicial extends javax.swing.JFrame {
 
     Controladora control = null;
 
-    public Principal() {
+    public LoginInicial() {
         initComponents();
 
         control = new Controladora();

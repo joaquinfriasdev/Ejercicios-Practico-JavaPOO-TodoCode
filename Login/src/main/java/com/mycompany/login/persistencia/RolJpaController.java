@@ -21,15 +21,14 @@ public class RolJpaController implements Serializable {
     public RolJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
-    public RolJpaController(){
-        emf = Persistence.createEntityManagerFactory("loginPU");
-    }
-    
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+    
+    public RolJpaController(){
+        emf = Persistence.createEntityManagerFactory("loginPU");
     }
 
     public void create(Rol rol) {
