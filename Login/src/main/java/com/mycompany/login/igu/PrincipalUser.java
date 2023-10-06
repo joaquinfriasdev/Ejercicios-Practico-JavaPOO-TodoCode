@@ -1,15 +1,15 @@
-
 package com.mycompany.login.igu;
 
 import com.mycompany.login.logica.Controladora;
 import com.mycompany.login.logica.Usuario;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
-
 
 public class PrincipalUser extends javax.swing.JFrame {
 
     Controladora control;
     Usuario usr;
+
     public PrincipalUser(Controladora control, Usuario usr) {
         initComponents();
         this.control = control;
@@ -61,6 +61,11 @@ public class PrincipalUser extends javax.swing.JFrame {
 
         btnRecargar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnRecargar.setText("Recargar Tabla");
+        btnRecargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargarActionPerformed(evt);
+            }
+        });
 
         txtNombreUser.setEditable(false);
         txtNombreUser.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -100,9 +105,8 @@ public class PrincipalUser extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
                         .addComponent(btnRecargar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -122,34 +126,53 @@ public class PrincipalUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-    
+
         txtNombreUser.setText(usr.getNombreUsuario());
         cargarTabla();
-        
+
     }//GEN-LAST:event_formWindowOpened
 
-        private void cargarTabla() {
-    
-            // definir el modelo de la tabla
-            DefaultTableModel modeloTabla = new DefaultTableModel(){
-             // que las filas y columnas no sean editables
-                @Override
-                public boolean isCellEditable (int row, int column){
+    private void cargarTabla() {
+
+        // definir el modelo de la tabla
+        DefaultTableModel modeloTabla = new DefaultTableModel() {
+            // que las filas y columnas no sean editables
+            @Override
+            public boolean isCellEditable(int row, int column) {
                 return false;
-                }
-                
-            };
-            
-            //establecemos los nombres de las columnas
-            String titulos[] = {"Id", "Usuario", "Rol"};
-            modeloTabla.setColumnIdentifiers(titulos);
-           
+            }
+
+        };
+
+        //establecemos los nombres de las columnas
+        String titulos[] = {"Id", "Usuario", "Rol"};
+        modeloTabla.setColumnIdentifiers(titulos);
+
+        //traer de la bd la lista de usuarios
+        List<Usuario> listaUsuarios = control.traerUsuarios();
+
+        //preguntamos si la lista está vacía
+        if (listaUsuarios != null) {
+            //recorrer la lista de usuarios con un foreach
+            for (Usuario usu : listaUsuarios) {
+                Object[] objeto = {usu.getId(), usu.getNombreUsuario(), usu.getUnRol().getNombreRol()};
+
+                //agregamos fila a la tabla
+                modeloTabla.addRow(objeto);
+
+            }
         }
-    
+        tablaUsuarios.setModel(modeloTabla);
+    }
+
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnRecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargarActionPerformed
+        
+        cargarTabla();
+    }//GEN-LAST:event_btnRecargarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -161,6 +184,5 @@ public class PrincipalUser extends javax.swing.JFrame {
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtNombreUser;
     // End of variables declaration//GEN-END:variables
-
 
 }
